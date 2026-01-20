@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Search, Star, MapPin, Clock, Flame, Coffee, IceCream } from "lucide-react";
 import sarafaImg from "@/assets/sarafa.jpg";
+import pohaImg from "@/assets/poha.jpg";
+import dalBaflaImg from "@/assets/dal-bafla.jpg";
+import garaduImg from "@/assets/garadu.jpg";
+import bhutteKeesImg from "@/assets/bhutte-kees.jpg";
+import shikanjiImg from "@/assets/shikanji.jpg";
+import malpuaImg from "@/assets/malpua.jpg";
 import { FilterPills } from "@/components/FilterPills";
 
 const foodItems = [
-  { id: 1, name: "Poha Jalebi", location: "Sarafa Bazaar", rating: 4.9, timing: "7 AM - 11 AM", category: "Breakfast", description: "Indore's iconic breakfast combo", spicy: false, image: sarafaImg },
-  { id: 2, name: "Dal Bafla", location: "Chhappan Dukan", rating: 4.7, timing: "11 AM - 10 PM", category: "Main Course", description: "Traditional MP specialty with ghee", spicy: false, image: sarafaImg },
-  { id: 3, name: "Garadu", location: "Sarafa Bazaar", rating: 4.8, timing: "8 PM - 2 AM", category: "Street Food", description: "Spiced yam fries, winter specialty", spicy: true, image: sarafaImg },
-  { id: 4, name: "Bhutte Ka Kees", location: "Chhappan Dukan", rating: 4.6, timing: "6 PM - 11 PM", category: "Street Food", description: "Grated corn cooked in milk & spices", spicy: true, image: sarafaImg },
-  { id: 5, name: "Shikanji", location: "Sarafa Bazaar", rating: 4.8, timing: "8 PM - 2 AM", category: "Beverages", description: "Famous Indori lemonade with masala", spicy: false, image: sarafaImg },
-  { id: 6, name: "Malpua Rabdi", location: "Khau Gali", rating: 4.9, timing: "9 PM - 1 AM", category: "Desserts", description: "Sweet pancakes with condensed milk", spicy: false, image: sarafaImg },
+  { id: 1, name: "Poha Jalebi", location: "Sarafa Bazaar", rating: 4.9, timing: "7 AM - 11 AM", category: "Breakfast", description: "Indore's iconic breakfast combo", spicy: false, image: pohaImg },
+  { id: 2, name: "Dal Bafla", location: "Chhappan Dukan", rating: 4.7, timing: "11 AM - 10 PM", category: "Main Course", description: "Traditional MP specialty with ghee", spicy: false, image: dalBaflaImg },
+  { id: 3, name: "Garadu", location: "Sarafa Bazaar", rating: 4.8, timing: "8 PM - 2 AM", category: "Street Food", description: "Spiced yam fries, winter specialty", spicy: true, image: garaduImg },
+  { id: 4, name: "Bhutte Ka Kees", location: "Chhappan Dukan", rating: 4.6, timing: "6 PM - 11 PM", category: "Street Food", description: "Grated corn cooked in milk & spices", spicy: true, image: bhutteKeesImg },
+  { id: 5, name: "Shikanji", location: "Sarafa Bazaar", rating: 4.8, timing: "8 PM - 2 AM", category: "Beverages", description: "Famous Indori lemonade with masala", spicy: false, image: shikanjiImg },
+  { id: 6, name: "Malpua Rabdi", location: "Khau Gali", rating: 4.9, timing: "9 PM - 1 AM", category: "Desserts", description: "Sweet pancakes with condensed milk", spicy: false, image: malpuaImg },
 ];
 
 const categories = ["All", "Breakfast", "Street Food", "Main Course", "Beverages", "Desserts"];

@@ -10,7 +10,7 @@ interface Message {
   timestamp: Date;
 }
 
-const GOOGLE_API_KEY = "AIzaSyCaaQMpoqFgknVRbG5W2cOIJtJ3Nv3-trI";
+const GOOGLE_API_KEY = "AIzaSyCPGstgM0lKQsswG5gGHrU-XcVf4FF5G24";
 
 export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([

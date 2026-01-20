@@ -1,5 +1,16 @@
-import { MapPin, Heart, Clock, Settings, ChevronRight, Camera, Edit2 } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { MapPin, Heart, Clock, Settings, ChevronRight, Camera, Edit2, Mail, Calendar, LogOut } from "lucide-react";
 import { Chatbot } from "@/components/Chatbot";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+}
 
 const savedPlaces = [
   { id: 1, name: "Rajwada Palace", category: "Heritage", savedAt: "2 days ago" },
@@ -14,6 +25,47 @@ const recentVisits = [
 ];
 
 export default function Profile() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+    setLoading(false);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary border-t-transparent"></div>
+          <p className="mt-4 text-muted-foreground">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Please Login</h2>
+          <p className="text-muted-foreground mb-4">You need to be logged in to view your profile.</p>
+          <Button onClick={() => window.location.href = '/login'}>
+            Go to Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen">
       {/* Profile Header */}
@@ -21,7 +73,9 @@ export default function Profile() {
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center border-4 border-card shadow-soft">
-              <span className="text-3xl font-bold text-primary">T</span>
+              <span className="text-3xl font-bold text-primary">
+                {user.name.charAt(0).toUpperCase()}
+              </span>
             </div>
             <button className="absolute bottom-0 right-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-soft">
               <Camera className="w-4 h-4 text-primary-foreground" />
@@ -29,8 +83,14 @@ export default function Profile() {
           </div>
 
           <div className="text-center sm:text-left flex-1">
-            <h1 className="text-2xl font-bold text-foreground">Tourist Explorer</h1>
-            <p className="text-muted-foreground mb-4">Exploring Indore since January 2025</p>
+            <h1 className="text-2xl font-bold text-foreground">{user.name}</h1>
+            <div className="flex items-center gap-2 text-muted-foreground mb-2">
+              <Mail className="w-4 h-4" />
+              <span className="text-sm">{user.email}</span>
+            </div>
+            <p className="text-muted-foreground mb-4">
+              Member since {new Date(user.createdAt).toLocaleDateString()}
+            </p>
             <div className="flex flex-wrap justify-center sm:justify-start gap-4">
               <div className="flex items-center gap-2 px-4 py-2 bg-accent rounded-xl">
                 <Heart className="w-4 h-4 text-primary" />
@@ -41,12 +101,20 @@ export default function Profile() {
                 <span className="text-sm font-medium text-foreground">{recentVisits.length} Visited</span>
               </div>
             </div>
+            <div className="flex gap-2 mt-4">
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors">
+                <Edit2 className="w-4 h-4" />
+                Edit Profile
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 bg-destructive text-destructive-foreground rounded-xl text-sm font-medium hover:bg-destructive/90 transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
           </div>
-
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors">
-            <Edit2 className="w-4 h-4" />
-            Edit Profile
-          </button>
         </div>
       </div>
 

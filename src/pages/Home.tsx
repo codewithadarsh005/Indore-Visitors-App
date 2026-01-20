@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Shield, Building2, HeartPulse, Thermometer, Sun, Moon, CloudSun } from "lucide-react";
+import { Shield, Building2, HeartPulse, Thermometer, Sun, Moon, CloudSun, Cloud, CloudRain } from "lucide-react";
 import { SearchBar } from "@/components/SearchBar";
 import { AttractionCard } from "@/components/AttractionCard";
 import { ServiceCard } from "@/components/ServiceCard";
 import { FilterPills } from "@/components/FilterPills";
 import { NearMeToggle } from "@/components/NearMeToggle";
 import { MapPlaceholder } from "@/components/MapPlaceholder";
+import { useNavigate } from "react-router-dom";
 import indoreSkyline from "@/assets/indore-skyline.jpg";
 import rajwadaImg from "@/assets/rajwada.jpg";
 import sarafaImg from "@/assets/sarafa.jpg";
@@ -41,14 +42,60 @@ function getGreeting() {
 export default function Home() {
   const [nearMeEnabled, setNearMeEnabled] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [temperature] = useState(28);
+  const [temperature, setTemperature] = useState(28);
+  const [weather, setWeather] = useState(null);
+  const [loading, setLoading] = useState(false);
   const greeting = getGreeting();
   const GreetingIcon = greeting.icon;
+  const navigate = useNavigate();
 
   const filteredAttractions = attractions.filter((attraction) => {
     if (activeFilter === "All") return true;
     return attraction.category === activeFilter;
   });
+
+  const handleAttractionClick = (attractionId: number) => {
+    navigate(`/attraction/${attractionId}`);
+  };
+
+  // Weather API integration
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=Indore&appid=c371a1590d8f8d8e1a1590d8f8ddfb986e774845d7968e774845d7968&units=metric`
+        );
+        const data = await response.json();
+        
+        if (response.ok) {
+          const weatherData = {
+            temperature: Math.round(data.main.temp),
+            condition: data.weather[0].main,
+            description: data.weather[0].description,
+            humidity: data.main.humidity,
+            windSpeed: data.wind.speed,
+            icon: data.weather[0].icon
+          };
+          setWeather(weatherData);
+          setTemperature(weatherData.temperature);
+        } else {
+          console.error('Weather API error:', data);
+        }
+      } catch (error) {
+        console.error('Weather fetch error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWeather();
+    const interval = setInterval(fetchWeather, 600000); // Update every 10 minutes
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -65,7 +112,27 @@ export default function Home() {
               <span className="text-sm font-medium">{greeting.text}</span>
             </div>
             <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-full px-4 py-2 border border-border">
-              <Thermometer className="w-4 h-4 text-secondary" />
+              {loading ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary border-t-transparent"></div>
+              ) : weather ? (
+                <div className="flex items-center gap-2">
+                  {weather.icon === 'Clouds' ? (
+                    <CloudRain className="w-4 h-4 text-secondary" />
+                  ) : weather.icon === 'Clear' ? (
+                    <Sun className="w-4 h-4 text-yellow-400" />
+                  ) : (
+                    <Cloud className="w-4 h-4 text-secondary" />
+                  )}
+                  <span className="text-sm font-medium text-foreground">
+                    {weather.temperature}°C
+                  </span>
+                  <span className="text-sm text-muted-foreground ml-2">
+                    {weather.condition}
+                  </span>
+                </div>
+              ) : (
+                <Thermometer className="w-4 h-4 text-secondary" />
+              )}
               <span className="text-sm font-medium text-foreground">{temperature}°C</span>
             </div>
           </div>
@@ -125,6 +192,7 @@ export default function Home() {
                 distance={attraction.distance}
                 category={attraction.category}
                 rating={attraction.rating}
+                onClick={() => handleAttractionClick(attraction.id)}
               />
             </div>
           ))}

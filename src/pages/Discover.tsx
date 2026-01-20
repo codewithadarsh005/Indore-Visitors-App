@@ -7,6 +7,8 @@ import khajranaImg from "@/assets/khajrana.jpg";
 import museumImg from "@/assets/museum.jpg";
 import patalpaniImg from "@/assets/patalpani.jpg";
 import { FilterPills } from "@/components/FilterPills";
+import BookingModal from "@/components/BookingModal";
+import { Button } from "@/components/ui/button";
 
 const allPlaces = [
   { id: 1, name: "Rajwada Palace", image: rajwadaImg, distance: "2.5 km", category: "Heritage", rating: 4.7, timing: "10 AM - 6 PM", description: "Historic seven-story structure showcasing Holkar dynasty architecture" },
@@ -106,10 +108,17 @@ export default function Discover() {
                   </div>
                 </div>
 
-                <button className="mt-4 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors">
-                  <Navigation className="w-4 h-4" />
-                  Get Directions
-                </button>
+                <div className="flex gap-2 mt-4">
+                  <BookingModal attraction={place}>
+                    <Button className="flex-1 bg-green-600 hover:bg-green-700">
+                      Book Now
+                    </Button>
+                  </BookingModal>
+                  <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors">
+                    <Navigation className="w-4 h-4" />
+                    Get Directions
+                  </button>
+                </div>
               </div>
             </div>
           </div>

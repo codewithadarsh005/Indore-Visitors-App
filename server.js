@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { config } from 'dotenv';
 import authRoutes from './routes/auth.js';
+import bookingRoutes from './routes/booking.js';
+import hotelRoutes from './routes/hotels.js';
 
 // Load environment variables
 config();
@@ -21,6 +23,8 @@ mongoose.connect(process.env.MONGO_CONN)
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/booking', bookingRoutes);
+app.use('/api/hotels', hotelRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
