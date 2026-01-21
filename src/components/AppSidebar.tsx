@@ -1,4 +1,4 @@
-import { Home, Compass, UtensilsCrossed, Hotel, Car, Calendar, Map, Settings, User, Menu } from "lucide-react";
+import { Home, Compass, UtensilsCrossed, Hotel, Car, Calendar, Map, Settings, User, Menu, LogIn } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useState } from "react";

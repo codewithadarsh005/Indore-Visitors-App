@@ -4,6 +4,11 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import BookingModal from "@/components/BookingModal"
+import sayajiImg from "@/assets/sayaji.jpg"
+import radissonImg from "@/assets/radisson.jpg"
+import apnaPalaceImg from "@/assets/Hotel-Apna-Palace.jpg"
+import marriottImg from "@/assets/marriott.jpg"
+import homestayImg from "@/assets/Home-stay.jpg"
 
 interface Hotel {
   _id: string;
@@ -14,6 +19,7 @@ interface Hotel {
   rating: number;
   description: string;
   amenities?: string[];
+  image?: string;
 }
 
 export default function Hotels() {
@@ -28,8 +34,50 @@ export default function Hotels() {
         const response = await fetch('http://localhost:5000/api/hotels')
         const data = await response.json()
         
+        // Add default images to hotels if they don't have images
+        let hotelsWithImages = data.hotels.map((hotel: Hotel) => ({
+          ...hotel,
+          image: hotel.image || (
+            hotel.name.toLowerCase().includes('radisson') ? radissonImg :
+            hotel.name.toLowerCase().includes('marriott') ? marriottImg :
+            hotel.name.toLowerCase().includes('apna') ? apnaPalaceImg :
+            sayajiImg
+          )
+        }));
+        
+        // Add additional Marriott and Radisson hotels if they don't exist
+        const existingNames = hotelsWithImages.map((h: Hotel) => h.name.toLowerCase());
+        
+        if (!existingNames.includes('marriott hotel indore')) {
+          hotelsWithImages.push({
+            _id: 'marriott-indore',
+            name: 'Marriott Hotel Indore',
+            type: 'Luxury',
+            location: 'Vijay Nagar, Indore',
+            price: 8500,
+            rating: 4.8,
+            description: 'Experience world-class hospitality at Marriott Hotel Indore with premium amenities and exceptional service.',
+            amenities: ['WiFi', 'Pool', 'Spa', 'Gym', 'Restaurant', 'Bar'],
+            image: marriottImg
+          });
+        }
+        
+        if (!existingNames.includes('radisson blu indore')) {
+          hotelsWithImages.push({
+            _id: 'radisson-indore',
+            name: 'Radisson Blu Indore',
+            type: 'Luxury',
+            location: 'Rajendra Nagar, Indore',
+            price: 7500,
+            rating: 4.7,
+            description: 'Modern luxury hotel with contemporary design and world-class facilities in the heart of Indore.',
+            amenities: ['WiFi', 'Pool', 'Spa', 'Gym', 'Conference Rooms', 'Restaurant'],
+            image: radissonImg
+          });
+        }
+        
         if (response.ok) {
-          setHotels(data.hotels)
+          setHotels(hotelsWithImages)
         } else {
           console.error('Failed to fetch hotels')
         }
@@ -53,8 +101,50 @@ export default function Hotels() {
         const response = await fetch(`http://localhost:5000/api/hotels?${params}`)
         const data = await response.json()
         
+        // Add default images to hotels if they don't have images
+        let hotelsWithImages = data.hotels.map((hotel: Hotel) => ({
+          ...hotel,
+          image: hotel.image || (
+            hotel.name.toLowerCase().includes('radisson') ? radissonImg :
+            hotel.name.toLowerCase().includes('marriott') ? marriottImg :
+            hotel.name.toLowerCase().includes('apna') ? apnaPalaceImg :
+            sayajiImg
+          )
+        }));
+        
+        // Add additional Marriott and Radisson hotels if they don't exist
+        const existingNames = hotelsWithImages.map((h: Hotel) => h.name.toLowerCase());
+        
+        if (!existingNames.includes('marriott hotel indore')) {
+          hotelsWithImages.push({
+            _id: 'marriott-indore',
+            name: 'Marriott Hotel Indore',
+            type: 'Luxury',
+            location: 'Vijay Nagar, Indore',
+            price: 8500,
+            rating: 4.8,
+            description: 'Experience world-class hospitality at Marriott Hotel Indore with premium amenities and exceptional service.',
+            amenities: ['WiFi', 'Pool', 'Spa', 'Gym', 'Restaurant', 'Bar'],
+            image: marriottImg
+          });
+        }
+        
+        if (!existingNames.includes('radisson blu indore')) {
+          hotelsWithImages.push({
+            _id: 'radisson-indore',
+            name: 'Radisson Blu Indore',
+            type: 'Luxury',
+            location: 'Rajendra Nagar, Indore',
+            price: 7500,
+            rating: 4.7,
+            description: 'Modern luxury hotel with contemporary design and world-class facilities in the heart of Indore.',
+            amenities: ['WiFi', 'Pool', 'Spa', 'Gym', 'Conference Rooms', 'Restaurant'],
+            image: radissonImg
+          });
+        }
+        
         if (response.ok) {
-          setHotels(data.hotels)
+          setHotels(hotelsWithImages)
         }
       } catch (error) {
         console.error('Error fetching filtered hotels:', error)
@@ -114,7 +204,14 @@ export default function Hotels() {
       ) : (
         <div className="grid md:grid-cols-2 gap-4">
           {hotels.map(hotel => (
-            <div key={hotel._id} className="border rounded-xl p-4 space-y-2 bg-background">
+            <div key={hotel._id} className="border rounded-xl p-4 space-y-2 bg-background overflow-hidden">
+              <div className="relative h-48 mb-4 overflow-hidden rounded-lg">
+                <img 
+                  src={hotel.image || sayajiImg} 
+                  alt={hotel.name}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-semibold">{hotel.name}</h3>

@@ -219,7 +219,7 @@ const AppContent = () => {
   return (
     <div className="min-h-screen flex w-full">
       <AppSidebar />
-      <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-auto">
+      <main className="flex-1 p-6 md:p-8 overflow-auto">
         <Routes>
           <Route
             path="/"
@@ -250,14 +250,6 @@ const AppContent = () => {
             element={
               <ProtectedRoute>
                 <Food />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/food/:id"
-            element={
-              <ProtectedRoute>
-                <FoodDetail />
               </ProtectedRoute>
             }
           />
