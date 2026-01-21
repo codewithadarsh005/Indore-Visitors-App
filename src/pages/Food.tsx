@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Search, Star, MapPin, Clock, Flame, Coffee, IceCream } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import sarafaImg from "@/assets/sarafa.jpg";
 import pohaImg from "@/assets/poha.jpg";
 import dalBaflaImg from "@/assets/dal-bafla.jpg";
@@ -23,6 +24,7 @@ const categories = ["All", "Breakfast", "Street Food", "Main Course", "Beverages
 export default function Food() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
+  const navigate = useNavigate();
 
   const filteredFood = foodItems.filter((item) => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -34,13 +36,13 @@ export default function Food() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Food in Indore</h1>
-        <p className="text-muted-foreground">Taste the flavors of India's cleanest city</p>
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-4">Food in Indore</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">Taste the flavors of India's cleanest city</p>
       </div>
 
       {/* Search & Filters */}
-      <div className="space-y-4 mb-8">
+      <div className="space-y-4 mb-6 sm:mb-8">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <input
@@ -48,10 +50,10 @@ export default function Food() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search food, dishes..."
-            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-card border border-border
+            className="w-full pl-12 pr-4 py-3 sm:py-4 rounded-2xl bg-card border border-border
                      text-foreground placeholder:text-muted-foreground
                      focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
-                     transition-all duration-200 shadow-soft"
+                     transition-all duration-200 shadow-soft text-sm sm:text-base"
           />
         </div>
 
@@ -63,7 +65,7 @@ export default function Food() {
       </div>
 
       {/* Food Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
         {filteredFood.map((item, index) => (
           <div
             key={item.id}
@@ -72,6 +74,19 @@ export default function Food() {
                      animate-fade-in"
             style={{ animationDelay: `${index * 50}ms` }}
           >
+            {/* Food Image */}
+            <div 
+              className="relative h-48 mb-4 overflow-hidden rounded-xl cursor-pointer"
+              onClick={() => navigate(`/food/${item.id}`)}
+            >
+              <img 
+                src={item.image} 
+                alt={item.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+
             <div className="p-6">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">

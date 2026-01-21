@@ -64,7 +64,7 @@ export default function Home() {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=Indore&appid=c371a1590d8f8d8e1a1590d8f8ddfb986e774845d7968e774845d7968&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?q=Indore&appid=11d9cc0e1a7c5d3d3a8f6c6c7e7d3a8f6c6c7e&units=metric`
         );
         const data = await response.json();
         
@@ -100,18 +100,18 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-2xl mb-8">
+      <section className="relative overflow-hidden rounded-2xl mb-6 sm:mb-8">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30"
           style={{ backgroundImage: `url(${indoreSkyline})` }}
         />
-        <div className="relative heritage-gradient rounded-2xl p-8 md:p-12">
-          <div className="flex items-center justify-between mb-6">
+        <div className="relative heritage-gradient rounded-2xl p-6 sm:p-8 md:p-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
               <GreetingIcon className="w-5 h-5 text-secondary" />
               <span className="text-sm font-medium">{greeting.text}</span>
             </div>
-            <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-full px-4 py-2 border border-border">
+            <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-full px-3 sm:px-4 py-2 border border-border">
               {loading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary border-t-transparent"></div>
               ) : weather ? (
@@ -137,10 +137,10 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 animate-fade-in">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 animate-fade-in">
             Welcome to <span className="text-primary">Indore</span>
           </h1>
-          <p className="text-muted-foreground mb-8 max-w-lg">
+          <p className="text-muted-foreground mb-6 sm:mb-8 max-w-lg text-sm sm:text-base">
             Discover the heart of Madhya Pradesh — heritage, culture, and the best street food in India
           </p>
 
@@ -149,13 +149,13 @@ export default function Home() {
       </section>
 
       {/* Map & Near Me Section */}
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2">
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="lg:col-span-2 order-2 lg:order-1">
           <MapPlaceholder nearMeEnabled={nearMeEnabled} />
         </div>
-        <div className="space-y-4">
+        <div className="order-1 lg:order-2 space-y-3 sm:space-y-4">
           <NearMeToggle enabled={nearMeEnabled} onToggle={setNearMeEnabled} />
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {nearbyServices.map((service) => (
               <ServiceCard
                 key={service.id}
@@ -169,9 +169,9 @@ export default function Home() {
       </section>
 
       {/* Top Attractions Section */}
-      <section className="mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <h2 className="text-2xl font-bold text-foreground">Top Attractions</h2>
+      <section className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-foreground">Top Attractions</h2>
           <FilterPills
             filters={filters}
             activeFilter={activeFilter}
@@ -179,7 +179,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredAttractions.map((attraction, index) => (
             <div
               key={attraction.id}
