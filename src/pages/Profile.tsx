@@ -10,6 +10,7 @@ interface User {
   name: string;
   email: string;
   createdAt: string;
+  profilePhoto?: string;
 }
 
 const savedPlaces = [
@@ -72,11 +73,19 @@ export default function Profile() {
       <div className="bg-card rounded-2xl border border-border shadow-soft p-6 mb-6 animate-fade-in">
         <div className="flex flex-col sm:flex-row items-center gap-6">
           <div className="relative">
-            <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center border-4 border-card shadow-soft">
-              <span className="text-3xl font-bold text-primary">
-                {user.name.charAt(0).toUpperCase()}
-              </span>
-            </div>
+            {user.profilePhoto ? (
+              <img
+                src={user.profilePhoto}
+                alt={user.name}
+                className="w-24 h-24 rounded-full object-cover border-4 border-card shadow-soft"
+              />
+            ) : (
+              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center border-4 border-card shadow-soft">
+                <span className="text-3xl font-bold text-primary">
+                  {user.name.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
             <button className="absolute bottom-0 right-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-soft">
               <Camera className="w-4 h-4 text-primary-foreground" />
             </button>

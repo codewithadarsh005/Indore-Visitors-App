@@ -1,14 +1,53 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 import User from '../models/User.js';
 import { generateToken } from '../utils/jwt.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '..', 'uploads', 'profile-photos');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Configure multer for profile photo uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'profile-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'));
+    }
+  }
+});
+
 // Signup route
-router.post('/signup', async (req, res) => {
+router.post('/signup', upload.single('profilePhoto'), async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    const profilePhoto = req.file ? `/uploads/profile-photos/${req.file.filename}` : null;
 
     // Validation
     if (!name || !email || !password) {
@@ -33,7 +72,8 @@ router.post('/signup', async (req, res) => {
     const newUser = new User({
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      profilePhoto
     });
 
     await newUser.save();
@@ -46,7 +86,8 @@ router.post('/signup', async (req, res) => {
       user: {
         id: newUser._id,
         name: newUser.name,
-        email: newUser.email
+        email: newUser.email,
+        profilePhoto: newUser.profilePhoto
       },
       token
     });
@@ -87,7 +128,8 @@ router.post('/login', async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        profilePhoto: user.profilePhoto
       },
       token
     });

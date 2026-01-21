@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Camera, Upload } from 'lucide-react';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +14,8 @@ const Signup = () => {
     password: '',
     confirmPassword: ''
   });
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const [profilePhotoPreview, setProfilePhotoPreview] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -24,6 +26,32 @@ const Signup = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleProfilePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please select an image file');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Image size should be less than 5MB');
+        return;
+      }
+      
+      setProfilePhoto(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,16 +80,18 @@ const Signup = () => {
     }
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('password', formData.password);
+      
+      if (profilePhoto) {
+        formDataToSend.append('profilePhoto', profilePhoto);
+      }
+
       const response = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password
-        }),
+        body: formDataToSend,
       });
 
       const data = await response.json();
@@ -106,6 +136,47 @@ const Signup = () => {
                 <AlertDescription className="text-green-800">{success}</AlertDescription>
               </Alert>
             )}
+
+            {/* Profile Photo Upload */}
+            <div className="space-y-2">
+              <Label htmlFor="profilePhoto">Profile Photo</Label>
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  {profilePhotoPreview ? (
+                    <img
+                      src={profilePhotoPreview}
+                      alt="Profile preview"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                      <Camera className="w-8 h-8 text-gray-400" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <Input
+                    id="profilePhoto"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleProfilePhotoChange}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => document.getElementById('profilePhoto')?.click()}
+                    className="w-full"
+                  >
+                    <Upload className="w-4 h-4 mr-2" />
+                    {profilePhoto ? 'Change Photo' : 'Upload Photo'}
+                  </Button>
+                  <p className="text-xs text-gray-500 mt-1">
+                    JPG, PNG, GIF up to 5MB
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
