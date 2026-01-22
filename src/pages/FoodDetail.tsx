@@ -3,6 +3,12 @@ import { ArrowLeft, Star, MapPin, Clock, Flame, Coffee, IceCream, Heart, Share2 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import pohaImg from "@/assets/poha.jpg";
+import dalBaflaImg from "@/assets/dal-bafla.jpg";
+import garaduImg from "@/assets/garadu.jpg";
+import bhutteKeesImg from "@/assets/bhutte-kees.jpg";
+import shikanjiImg from "@/assets/shikanji.jpg";
+import malpuaImg from "@/assets/malpua.jpg";
 
 // Food items data (same as in Food.tsx)
 const foodItems = [
@@ -15,7 +21,7 @@ const foodItems = [
     category: "Breakfast", 
     description: "Indore's iconic breakfast combo", 
     spicy: false, 
-    image: "/src/assets/poha.jpg",
+    image: pohaImg,
     history: "Poha Jalebi is the quintessential Indore breakfast that has been enjoyed for generations. This fluffy flattened rice dish served with crispy jalebi represents the perfect blend of sweet and savory that Indore is famous for. Originally a simple breakfast, it has evolved into a cultural symbol of the city's culinary heritage.",
     whyFamous: "Poha Jalebi is famous in Indore because it represents the city's unique breakfast culture. The combination of light, flavorful poha with sweet, crispy jalebi creates a perfect balance that's uniquely Indori. Sarafa Bazaar becomes a paradise for poha lovers every morning.",
     nutritionalInfo: {
@@ -36,7 +42,7 @@ const foodItems = [
     category: "Main Course", 
     description: "Traditional MP specialty with ghee", 
     spicy: false, 
-    image: "/src/assets/dal-bafla.jpg",
+    image: dalBaflaImg,
     history: "Dal Bafla is a traditional dish from Madhya Pradesh that has found a special home in Indore's culinary scene. The combination of dal (lentils) and bafla (wheat rolls) cooked in pure ghee represents the authentic flavors of the region. This dish is especially popular during festivals and family gatherings.",
     whyFamous: "Dal Bafla is famous in Indore because it showcases the authentic culinary traditions of Madhya Pradesh. The use of pure ghee and traditional cooking methods makes it a favorite among locals who appreciate authentic flavors. Chhappan Dukan serves some of the best dal bafla in the city.",
     nutritionalInfo: {
@@ -57,7 +63,7 @@ const foodItems = [
     category: "Street Food", 
     description: "Spiced yam fries, winter specialty", 
     spicy: true, 
-    image: "/src/assets/garadu.jpg",
+    image: garaduImg,
     history: "Garadu is a winter specialty that Indore eagerly awaits every year. Made from yam (garadu) that's spiced and deep-fried, this dish becomes available during the winter months when the vegetable is in season. The crispy exterior and soft interior make it irresistible.",
     whyFamous: "Garadu is famous in Indore because it's a seasonal delicacy that marks the arrival of winter in the city. People line up at Sarafa Bazaar to get their share of this crispy, spicy treat. It's more than just food; it's a winter tradition that brings the community together.",
     nutritionalInfo: {
@@ -78,7 +84,7 @@ const foodItems = [
     category: "Street Food", 
     description: "Grated corn cooked in milk & spices", 
     spicy: true, 
-    image: "/src/assets/bhutte-kees.jpg",
+    image: bhutteKeesImg,
     history: "Bhutte Ka Kees is a unique Indore specialty that showcases the city's innovative approach to traditional ingredients. Fresh corn grated and cooked with milk, spices, and sometimes cream, creates a dish that's both comforting and flavorful. It's a testament to Indore's culinary creativity.",
     whyFamous: "Bhutte Ka Kees is famous in Indore because it represents the city's ability to transform simple ingredients into extraordinary dishes. This street food innovation has gained popularity across India and put Indore on the culinary map for its unique corn preparations.",
     nutritionalInfo: {
@@ -99,7 +105,7 @@ const foodItems = [
     category: "Beverages", 
     description: "Famous Indori lemonade with masala", 
     spicy: false, 
-    image: "/src/assets/shikanji.jpg",
+    image: shikanjiImg,
     history: "Shikanji is Indore's answer to summer thirst. This refreshing lemonade, infused with special masala and sometimes served with kulhad (malpuas), is the perfect coolant during hot Indore summers. The unique blend of sweet, sour, and spicy flavors makes it unforgettable.",
     whyFamous: "Shikanji is famous in Indore because it's the city's signature summer drink that has been perfected over generations. The special masala blend and serving style make it uniquely Indori. During summer, no evening in Indore is complete without glasses of shikanji.",
     nutritionalInfo: {
@@ -120,7 +126,7 @@ const foodItems = [
     category: "Desserts", 
     description: "Sweet pancakes with condensed milk", 
     spicy: false, 
-    image: "/src/assets/malpua.jpg",
+    image: malpuaImg,
     history: "Malpua Rabdi is the crown jewel of Indore's sweet offerings. These fluffy pancakes soaked in sugar syrup and served with thick rabdi represent the pinnacle of traditional Indian desserts. The combination of soft malpuas with rich rabdi creates a divine dessert experience.",
     whyFamous: "Malpua Rabdi is famous in Indore because it represents the city's rich dessert tradition and expertise in sweet making. Khau Gali becomes a sweet paradise during festivals and special occasions, with malpua rabdi being the star attraction that draws food lovers from all over.",
     nutritionalInfo: {

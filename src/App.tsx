@@ -254,6 +254,14 @@ const AppContent = () => {
             }
           />
           <Route
+            path="/food/:id"
+            element={
+              <ProtectedRoute>
+                <FoodDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/hotels"
             element={
               <ProtectedRoute>
