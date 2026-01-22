@@ -2,6 +2,7 @@ import { Home, Compass, UtensilsCrossed, Hotel, Car, Calendar, Map, Settings, Us
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import logo from "@/assets/Logo.png";
 
 const navItems = [
   { title: "Home", url: "/", icon: Home },
@@ -42,14 +43,26 @@ export function AppSidebar() {
     >
       {/* Logo Header */}
       <div className="p-6 border-b border-border flex items-center justify-between">
-        {!isCollapsed && (
+        {isCollapsed ? (
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+            <img 
+              src={logo} 
+              alt="Logo" 
+              className="w-8 h-8 object-contain"
+            />
+          </div>
+        ) : (
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">I</span>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden">
+              <img 
+                src={logo} 
+                alt="Logo" 
+                className="w-8 h-8 object-contain"
+              />
             </div>
             <div>
-              <h1 className="font-semibold text-foreground text-sm">Indore</h1>
-              <p className="text-xs text-muted-foreground">Tourist Companion</p>
+              <h1 className="font-semibold text-foreground text-sm">IMC</h1>
+              <p className="text-xs text-muted-foreground">Visitors</p>
             </div>
           </div>
         )}

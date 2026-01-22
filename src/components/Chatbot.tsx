@@ -10,7 +10,11 @@ interface Message {
   timestamp: Date;
 }
 
-const GOOGLE_API_KEY = "AIzaSyCPGstgM0lKQsswG5gGHrU-XcVf4FF5G24";
+const GOOGLE_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+if (!GOOGLE_API_KEY) {
+  console.error('VITE_GEMINI_API_KEY is not set in environment variables');
+}
 
 export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([

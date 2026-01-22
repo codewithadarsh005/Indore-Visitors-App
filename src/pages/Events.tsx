@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Calendar as CalendarIcon, MapPin, Clock, Users, Search, Filter } from "lucide-react";
 import { FilterPills } from "@/components/FilterPills";
+import { useNavigate } from "react-router-dom";
 
 const events = [
   {
@@ -60,6 +61,7 @@ const categories = ["All", "Cultural", "Food", "Music", "Tourism", "Art"];
 export default function Events() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
+  const navigate = useNavigate();
 
   const filteredEvents = events.filter((event) => {
     const matchesSearch = event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -146,7 +148,10 @@ export default function Events() {
               </div>
 
               {/* Action */}
-              <button className="px-6 py-3 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap">
+              <button 
+                onClick={() => navigate(`/events/register/${event.id}`)}
+                className="px-6 py-3 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors whitespace-nowrap"
+              >
                 Register Now
               </button>
             </div>

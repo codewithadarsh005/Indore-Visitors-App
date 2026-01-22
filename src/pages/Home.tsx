@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Shield, Building2, HeartPulse, Thermometer, Sun, Moon, CloudSun, Cloud, CloudRain } from "lucide-react";
+import { Shield, Building2, HeartPulse, Thermometer, Sun, Moon, CloudSun, Cloud, CloudRain, MessageCircle } from "lucide-react";
 import { SearchBar } from "@/components/SearchBar";
 import { AttractionCard } from "@/components/AttractionCard";
 import { ServiceCard } from "@/components/ServiceCard";
@@ -58,32 +58,31 @@ export default function Home() {
     navigate(`/attraction/${attractionId}`);
   };
 
-  // Weather API integration
+  // Weather API integration - DISABLED FOR NOW
   useEffect(() => {
     const fetchWeather = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=Indore&appid=11d9cc0e1a7c5d3d3a8f6c6c7e7d3a8f6c6c7e&units=metric`
-        );
-        const data = await response.json();
+        // Disabled due to invalid API key
+        // const response = await fetch(
+        //   `https://api.openweathermap.org/data/2.5/weather?q=Indore&appid=11d9cc0e1a7c5d3d3a8f6c6c7e7d3a8f6c6c7e&units=metric`
+        // );
+        // const data = await response.json();
         
-        if (response.ok) {
-          const weatherData = {
-            temperature: Math.round(data.main.temp),
-            condition: data.weather[0].main,
-            description: data.weather[0].description,
-            humidity: data.main.humidity,
-            windSpeed: data.wind.speed,
-            icon: data.weather[0].icon
-          };
-          setWeather(weatherData);
-          setTemperature(weatherData.temperature);
-        } else {
-          console.error('Weather API error:', data);
-        }
+        // Mock weather data for demo
+        const mockWeatherData = {
+          temperature: 28,
+          condition: "Clear",
+          description: "Clear sky",
+          humidity: 65,
+          windSpeed: 3.5,
+          icon: "01d"
+        };
+        setWeather(mockWeatherData);
+        setTemperature(mockWeatherData.temperature);
+        
       } catch (error) {
-        console.error('Weather fetch error:', error);
+        console.error("Weather API error:", error);
       } finally {
         setLoading(false);
       }
@@ -145,6 +144,18 @@ export default function Home() {
           </p>
 
           <SearchBar />
+          
+          {/* Chatbot Button */}
+          <button
+            onClick={() => navigate('/chat')}
+            className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 hover:scale-110 flex items-center justify-center group"
+            aria-label="Chat with AI Assistant"
+          >
+            <MessageCircle className="w-6 h-6" />
+            <span className="absolute -top-8 -right-2 bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              AI Chat
+            </span>
+          </button>
         </div>
       </section>
 

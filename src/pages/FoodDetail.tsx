@@ -144,7 +144,10 @@ export default function FoodDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   
+  console.log('FoodDetail ID:', id); // Debug log
   const food = foodItems.find(item => item.id === parseInt(id));
+  
+  console.log('Found food:', food); // Debug log
 
   if (!food) {
     return (
